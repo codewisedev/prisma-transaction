@@ -18,7 +18,7 @@ export class AppController {
       // One ***********************************************
       const userData: Prisma.UserCreateInput = {
         name: 'mohammad',
-        email: 'd@emil.com',
+        email: 'a@emil.com',
       };
       const postData = { title: '' } as Prisma.PostCreateInput;
 
@@ -32,7 +32,7 @@ export class AppController {
       // Two ***********************************************
       const userDataTwo: Prisma.UserCreateInput = {
         name: 'mohammad',
-        email: 'e@emil.com',
+        email: 'b@emil.com',
       };
       const postDataTwo = {} as Prisma.PostCreateInput;
 

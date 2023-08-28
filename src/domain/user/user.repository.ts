@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { User, Prisma } from '@prisma/client';
-// import { PrismaClient } from '@prisma/client';
-// import { TransactionType } from 'src/database/prisma-transaction';
 
 @Injectable()
 export class UserService {
@@ -33,41 +31,11 @@ export class UserService {
     });
   }
 
-  // async createUser(data: Prisma.UserCreateInput) {
-  //   return this.prisma.user.create({
-  //     data,
-  //   });
-  // }
-
-  async createUser(
-    data: Prisma.UserCreateInput,
-    transaction?: any,
-  ): Promise<User> {
-    if (transaction) {
-      return transaction.user.create({ data });
-    } else {
-      return this.prisma.user.create({
-        data,
-      });
-    }
+  async createUser(data: Prisma.UserCreateInput) {
+    return this.prisma.user.create({
+      data,
+    });
   }
-
-  // async createUser(
-  //   data: Prisma.UserCreateInput,
-  //   transaction?: any,
-  //   prismaClient?: PrismaClient,
-  // ): Promise<User> {
-  //   if (transaction) {
-  //     return transaction(async (tx) => {
-  //       await tx.user.create({ data });
-  //     });
-  //     // return transaction.user.create({ data });
-  //   } else {
-  //     return this.prisma.user.create({
-  //       data,
-  //     });
-  //   }
-  // }
 
   async updateUser(params: {
     where: Prisma.UserWhereUniqueInput;

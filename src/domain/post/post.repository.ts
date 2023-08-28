@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { Post, Prisma } from '@prisma/client';
-// import { PrismaClient } from '@prisma/client';
-// import { TransactionType } from 'src/database/prisma-transaction';
 
 @Injectable()
 export class PostService {
@@ -33,41 +31,11 @@ export class PostService {
     });
   }
 
-  // async createPost(data: Prisma.PostCreateInput): Promise<Post> {
-  //   return this.prisma.post.create({
-  //     data,
-  //   });
-  // }
-
-  async createPost(
-    data: Prisma.PostCreateInput,
-    transaction?: any,
-  ): Promise<Post> {
-    if (transaction) {
-      return transaction.post.create({ data }, { transaction });
-    } else {
-      return this.prisma.post.create({
-        data,
-      });
-    }
+  async createPost(data: Prisma.PostCreateInput): Promise<Post> {
+    return this.prisma.post.create({
+      data,
+    });
   }
-
-  // async createPost(
-  //   data: Prisma.PostCreateInput,
-  //   transaction?: any,
-  //   prismaClient?: PrismaClient,
-  // ): Promise<Post> {
-  //   if (transaction) {
-  //     return transaction(async (tx) => {
-  //       await tx.post.create({ data });
-  //     });
-  //     // return transaction.post.create({ data });
-  //   } else {
-  //     return this.prisma.post.create({
-  //       data,
-  //     });
-  //   }
-  // }
 
   async updatePost(params: {
     where: Prisma.PostWhereUniqueInput;
