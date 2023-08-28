@@ -1,87 +1,47 @@
 import { Controller, Get } from '@nestjs/common';
 import { UserService } from './domain/user/user.repository';
 import { PostService } from './domain/post/post.repository';
-import { PrismaTransaction } from './database/prisma-transaction';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from './database/prisma.service';
 
 @Controller()
 export class AppController {
-  private transaction = PrismaTransaction.getInstance();
-  private prisma = new PrismaService();
-
   constructor(
     private readonly userService: UserService,
     private readonly postService: PostService,
+    private readonly prismaService: PrismaService,
   ) {}
 
   @Get()
   async get() {
     try {
+      // One ***********************************************
       const userData: Prisma.UserCreateInput = {
         name: 'mohammad',
-        email: 'c@emil.com',
+        email: 'd@emil.com',
       };
       const postData = { title: '' } as Prisma.PostCreateInput;
 
-      await this.prisma.$transaction(async () => {
+      await this.prismaService.$transaction(async () => {
         const createdUser = await this.userService.createUser(userData);
         const createdPost = await this.postService.createPost(postData);
 
         console.log(createdUser, createdPost);
       });
 
-      // const prismaClient = this.transaction.createPrismaClient();
+      // Two ***********************************************
+      const userDataTwo: Prisma.UserCreateInput = {
+        name: 'mohammad',
+        email: 'e@emil.com',
+      };
+      const postDataTwo = {} as Prisma.PostCreateInput;
 
-      // prismaClient.$transaction(async (tx) => {
-      //   const createdUser = await this.userService.createUser(userData, tx);
-      //   const createdPost = await this.postService.createPost(postData, tx);
+      await this.prismaService.$transaction(async () => {
+        const createdUser = await this.userService.createUser(userDataTwo);
+        const createdPost = await this.postService.createPost(postDataTwo);
 
-      //   console.log(createdUser, createdPost);
-      // });
-
-      // const createdUser = await prismaClient.user.create({ data: userData });
-      // const createdPost = await prismaClient.post.create({ data: postData });
-
-      // const createdUser = await this.userService.createUser(
-      //   userData,
-      //   prismaClient,
-      // );
-      // const createdPost = await this.postService.createPost(
-      //   postData,
-      //   prismaClient,
-      // );
-
-      // this.transaction.createTransaction([createdUser, createdPost]);
-
-      // const transaction = this.transaction.createTransaction();
-
-      // const createdUser = await this.userService.createUser(
-      //   userData,
-      //   transaction,
-      //   prismaClient,
-      // );
-      // const createdPost = await this.postService.createPost(
-      //   postData,
-      //   transaction,
-      //   prismaClient,
-      // );
-
-      // const createdPost = new Promise(() =>
-      //   this.postService.createPost(postData),
-      // );
-
-      // this.transaction.addFunction(this.userService.createUser(userData));
-      // this.transaction.addFunction(this.postService.createPost(postData));
-
-      // this.transaction.runTransaction();
-
-      // const createdUser = await this.userService.createUser.bind(userData);
-      // const createdPost = await this.postService.createPost.bind(postData);
-
-      // this.transaction.createTransaction([createdUser, createdPost]);
-
-      // console.log(createdUser, createdPost);
+        console.log(createdUser, createdPost);
+      });
     } catch (error) {
       console.log(error);
     }
