@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ExtendedPrismaClient } from './prisma-client';
+import { PrismaClientService } from './prisma-client.service';
 
 @Injectable()
-export class PrismaService extends ExtendedPrismaClient {
+export class PrismaService extends PrismaClientService {
   constructor() {
     super();
   }
