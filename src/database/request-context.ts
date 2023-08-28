@@ -4,9 +4,9 @@ import { RequestContext } from 'nestjs-request-context';
 
 export type PrismaTransactionClient = Omit<PrismaClient, ITXClientDenyList>;
 
-/* The `AppRequestContext` class extends the `RequestContext` class and adds a property
+/* The `TransactionRequestContext` class extends the `RequestContext` class and adds a property
 `prismaTransactionClient` of type `PrismaTransactionClient`. */
-export class AppRequestContext extends RequestContext {
+export class TransactionRequestContext extends RequestContext {
   public prismaTransactionClient: PrismaTransactionClient;
 }
 
@@ -15,10 +15,10 @@ including setting and retrieving a Prisma transaction client. */
 export class RequestContextService {
   /**
    * The function returns the current context of the app request.
-   * @returns the current AppRequestContext object.
+   * @returns the current TransactionRequestContext object.
    */
-  public static getContext(): AppRequestContext {
-    const ctx: AppRequestContext = RequestContext.currentContext.req;
+  public static getContext(): TransactionRequestContext {
+    const ctx: TransactionRequestContext = RequestContext.currentContext.req;
     return ctx;
   }
 
