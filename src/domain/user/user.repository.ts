@@ -33,10 +33,23 @@ export class UserService {
     });
   }
 
-  async createUser(data: Prisma.UserCreateInput) {
-    return this.prisma.user.create({
-      data,
-    });
+  // async createUser(data: Prisma.UserCreateInput) {
+  //   return this.prisma.user.create({
+  //     data,
+  //   });
+  // }
+
+  async createUser(
+    data: Prisma.UserCreateInput,
+    transaction?: any,
+  ): Promise<User> {
+    if (transaction) {
+      return transaction.user.create({ data });
+    } else {
+      return this.prisma.user.create({
+        data,
+      });
+    }
   }
 
   // async createUser(

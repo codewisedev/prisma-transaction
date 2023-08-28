@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { UserModule } from './domain/user/user.module';
 import { PostModule } from './domain/post/post.module';
 import { DatabaseModule } from './database/database.module';
+import { RequestContextModule } from 'nestjs-request-context';
 
 @Module({
-  imports: [UserModule, PostModule, DatabaseModule],
+  imports: [RequestContextModule, UserModule, PostModule, DatabaseModule],
   controllers: [AppController],
   providers: [],
 })

@@ -33,10 +33,23 @@ export class PostService {
     });
   }
 
-  async createPost(data: Prisma.PostCreateInput): Promise<Post> {
-    return this.prisma.post.create({
-      data,
-    });
+  // async createPost(data: Prisma.PostCreateInput): Promise<Post> {
+  //   return this.prisma.post.create({
+  //     data,
+  //   });
+  // }
+
+  async createPost(
+    data: Prisma.PostCreateInput,
+    transaction?: any,
+  ): Promise<Post> {
+    if (transaction) {
+      return transaction.post.create({ data }, { transaction });
+    } else {
+      return this.prisma.post.create({
+        data,
+      });
+    }
   }
 
   // async createPost(

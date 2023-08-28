@@ -22,9 +22,23 @@ export class AppController {
         name: 'mohammad',
         email: 'c@emil.com',
       };
-      const postData = {} as Prisma.PostCreateInput;
+      const postData = { title: '' } as Prisma.PostCreateInput;
+
+      await this.prisma.$transaction(async () => {
+        const createdUser = await this.userService.createUser(userData);
+        const createdPost = await this.postService.createPost(postData);
+
+        console.log(createdUser, createdPost);
+      });
 
       // const prismaClient = this.transaction.createPrismaClient();
+
+      // prismaClient.$transaction(async (tx) => {
+      //   const createdUser = await this.userService.createUser(userData, tx);
+      //   const createdPost = await this.postService.createPost(postData, tx);
+
+      //   console.log(createdUser, createdPost);
+      // });
 
       // const createdUser = await prismaClient.user.create({ data: userData });
       // const createdPost = await prismaClient.post.create({ data: postData });
@@ -57,10 +71,10 @@ export class AppController {
       //   this.postService.createPost(postData),
       // );
 
-      this.transaction.addFunction(this.userService.createUser(userData));
-      this.transaction.addFunction(this.postService.createPost(postData));
+      // this.transaction.addFunction(this.userService.createUser(userData));
+      // this.transaction.addFunction(this.postService.createPost(postData));
 
-      this.transaction.runTransaction();
+      // this.transaction.runTransaction();
 
       // const createdUser = await this.userService.createUser.bind(userData);
       // const createdPost = await this.postService.createPost.bind(postData);
